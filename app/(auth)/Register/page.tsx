@@ -13,16 +13,33 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { Icons } from "@/components/Icons";
+
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Icons } from "@/components/Icons";
+
+import axios from "axios";
 
 const formSchema = z
   .object({
-    first_name: z.string(),
-    last_name: z.string(),
-    email: z.string().email(),
-    password: z.string().min(8, "Password must have 8 characters"),
+    first_name: z
+      .string()
+      .min(1, "First name is required")
+      .max(50, "First name is too long"),
+    last_name: z
+      .string()
+      .min(1, "Last name is required")
+      .max(50, "Last name is too long"),
+    email: z.string().email("Invalid email address"),
+    password: z
+      .string()
+      .min(8, "Password must be at least 8 characters")
+      .max(100, "Password is too long"),
+    // .regex(
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+    //   "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character"
+    // ),
     confirm_password: z.string(),
   })
   .refine((data) => data.password === data.confirm_password, {
@@ -33,6 +50,7 @@ const formSchema = z
 export default function Register() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isGithubLoading, setIsGithubLoading] = useState<boolean>(false);
+  const { toast } = useToast();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,6 +64,14 @@ export default function Register() {
   });
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
+    axios.post("/api/register", values).catch(() => {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+      });
+      setIsLoading(false);
+    });
     console.log(values);
   };
   return (
@@ -71,7 +97,6 @@ export default function Register() {
                         <Input
                           id="first-name"
                           placeholder="Max"
-                          required
                           {...field}
                           disabled={isLoading || isGithubLoading}
                         />
@@ -89,7 +114,6 @@ export default function Register() {
                         <Input
                           id="last-name"
                           placeholder="Robinson"
-                          required
                           {...field}
                           disabled={isLoading || isGithubLoading}
                         />
@@ -109,7 +133,6 @@ export default function Register() {
                         id="email"
                         type="email"
                         placeholder="m@example.com"
-                        required
                         disabled={isLoading || isGithubLoading}
                         {...field}
                       />
@@ -127,7 +150,6 @@ export default function Register() {
                       <Input
                         id="password"
                         type="password"
-                        required
                         disabled={isLoading || isGithubLoading}
                         {...field}
                       />
@@ -147,7 +169,6 @@ export default function Register() {
                       <Input
                         id="confirm_password"
                         type="password"
-                        required
                         disabled={isLoading || isGithubLoading}
                         {...field}
                       />

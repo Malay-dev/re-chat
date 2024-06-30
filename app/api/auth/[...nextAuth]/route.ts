@@ -5,21 +5,30 @@ import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 
-import type { Adapter } from "next-auth/adapters";
+import { Adapter } from "next-auth/adapters";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import prisma from "@/lib/prisma";
+
+// Helper function to check environment variables
+function getEnvVariable(name: string): string {
+  const value = process.env[name];
+  if (!value) {
+    throw new Error(`Missing environment variable: ${name}`);
+  }
+  return value;
+}
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     Github({
-      clientId: process.env.GITHUB_ID as string,
-      clientSecret: process.env.GITHUB_SECRET as string,
+      clientId: getEnvVariable("GITHUB_ID"),
+      clientSecret: getEnvVariable("GITHUB_SECRET"),
     }),
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: getEnvVariable("GOOGLE_CLIENT_ID"),
+      clientSecret: getEnvVariable("GOOGLE_CLIENT_SECRET"),
     }),
     Credentials({
       name: "credentials",
@@ -29,7 +38,7 @@ export const authOptions: AuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error("Invalid Credentials");
+          throw new Error("Email and password are required");
         }
         const user = await prisma.user.findUnique({
           where: {
@@ -37,15 +46,17 @@ export const authOptions: AuthOptions = {
           },
         });
         if (!user || !user?.hashedPassword) {
-          throw new Error("Invalide Credentials");
+          console.log("User not found or password not set");
+          throw new Error("Invalid credentials");
         }
 
-        const extinguisher = await bcrypt.compare(
+        const isPasswordValid = await bcrypt.compare(
           credentials.password,
           user.hashedPassword
         );
-        if (!extinguisher) {
-          throw new Error("Invalide Credentials");
+        if (!isPasswordValid) {
+          console.log("Invalid password");
+          throw new Error("Invalid credentials");
         }
         return user;
       },
@@ -55,7 +66,7 @@ export const authOptions: AuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: getEnvVariable("NEXTAUTH_SECRET"),
 };
 
 const handler = NextAuth(authOptions);

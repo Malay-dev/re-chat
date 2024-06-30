@@ -14,8 +14,12 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Icons } from "@/components/Icons";
+import { useToast } from "@/components/ui/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import { signIn } from "next-auth/react";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -23,7 +27,11 @@ const formSchema = z.object({
 });
 
 export default function Login() {
+  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
+  const [isGithubLoading, setIsGithubLoading] = useState(false);
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -33,9 +41,74 @@ export default function Login() {
   });
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    setIsLoading(true);
+    signIn("credentials", {
+      ...values,
+      redirect: false,
+    })
+      .then((callback) => {
+        if (callback?.error) {
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: "Invalid Credentials",
+          });
+        }
+        if (callback?.ok && !callback?.error) {
+          toast({
+            description: "Logged in!",
+          });
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
     console.log(values);
   };
 
+  const onGithub = () => {
+    setIsGithubLoading(true);
+    signIn("github", { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: "Invalid Credentials",
+          });
+        }
+        if (callback?.ok && !callback?.error) {
+          toast({
+            description: "Logged in!",
+          });
+        }
+      })
+      .finally(() => {
+        setIsGithubLoading(false);
+      });
+  };
+
+  const onGoogle = () => {
+    setIsGoogleLoading(true);
+    signIn("google", { redirect: false })
+      .then((callback) => {
+        if (callback?.error) {
+          toast({
+            variant: "destructive",
+            title: "Uh oh! Something went wrong.",
+            description: "Invalid Credentials",
+          });
+        }
+        if (callback?.ok && !callback?.error) {
+          toast({
+            description: "Logged in!",
+          });
+        }
+      })
+      .finally(() => {
+        setIsGoogleLoading(false);
+      });
+  };
   return (
     <div className="flex items-center justify-center py-12">
       <div className="mx-auto grid w-[350px] gap-6">
@@ -59,7 +132,9 @@ export default function Login() {
                         id="email"
                         type="email"
                         placeholder="m@example.com"
-                        required
+                        disabled={
+                          isLoading || isGithubLoading || isGoogleLoading
+                        }
                         {...field}
                       />
                     </FormControl>
@@ -83,17 +158,48 @@ export default function Login() {
                       <Input
                         id="password"
                         type="password"
-                        required
+                        disabled={
+                          isLoading || isGithubLoading || isGoogleLoading
+                        }
                         {...field}
                       />
                     </FormControl>
                     <FormMessage></FormMessage>
                   </FormItem>
                 )}></FormField>
-              <Button type="submit" className="w-full">
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading || isGithubLoading || isGoogleLoading}>
+                {isLoading && (
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                )}
                 Login
               </Button>
-              <Button variant="outline" className="w-full">
+              <Button
+                variant="outline"
+                className="w-full"
+                disabled={isLoading || isGithubLoading || isGoogleLoading}
+                onClick={() => onGithub()}>
+                {isGithubLoading && (
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                <Icons.gitHub
+                  className="mr-2 h-4 w-4 "
+                  size={"sm"}></Icons.gitHub>
+                Login with Github
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full"
+                disabled={isLoading || isGithubLoading || isGoogleLoading}
+                onClick={() => onGoogle()}>
+                {isGoogleLoading && (
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                <Icons.google
+                  className="mr-2 h-4 w-4 "
+                  size={"sm"}></Icons.google>
                 Login with Google
               </Button>
             </div>
