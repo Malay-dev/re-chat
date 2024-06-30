@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
 
@@ -19,7 +20,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -28,9 +30,18 @@ const formSchema = z.object({
 
 export default function Login() {
   const { toast } = useToast();
+  const session = useSession();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isGithubLoading, setIsGithubLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      console.log("Authenticated");
+      router.push("/users");
+    }
+  }, [session?.status, router]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,6 +69,7 @@ export default function Login() {
           toast({
             description: "Logged in!",
           });
+          router.push("/users");
         }
       })
       .finally(() => {
@@ -81,6 +93,7 @@ export default function Login() {
           toast({
             description: "Logged in!",
           });
+          router.push("/users");
         }
       })
       .finally(() => {
@@ -103,6 +116,7 @@ export default function Login() {
           toast({
             description: "Logged in!",
           });
+          router.push("/users");
         }
       })
       .finally(() => {
@@ -207,7 +221,7 @@ export default function Login() {
         </Form>
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
-          <Link href="/Register" className="underline">
+          <Link href="/register" className="underline">
             Sign up
           </Link>
         </div>

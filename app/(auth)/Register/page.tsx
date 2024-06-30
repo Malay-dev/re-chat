@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -18,6 +19,9 @@ import { Icons } from "@/components/Icons";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useSession } from "next-auth/react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 import axios from "axios";
 
@@ -48,9 +52,18 @@ const formSchema = z
   });
 
 export default function Register() {
+  const { toast } = useToast();
+  const session = useSession();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isGithubLoading, setIsGithubLoading] = useState<boolean>(false);
-  const { toast } = useToast();
+
+  useEffect(() => {
+    if (session?.status === "authenticated") {
+      console.log("Authenticated");
+      router.push("/users");
+    }
+  }, [session?.status, router]);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -64,14 +77,21 @@ export default function Register() {
   });
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
-    axios.post("/api/register", values).catch(() => {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
+    axios
+      .post("/api/register", values)
+      .then(() => {
+        signIn("credentials", values);
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          title: "Uh oh! Something went wrong.",
+          description: "There was a problem with your request.",
+        });
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
-      setIsLoading(false);
-    });
     console.log(values);
   };
   return (
