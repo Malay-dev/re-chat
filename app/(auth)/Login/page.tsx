@@ -1,6 +1,7 @@
 "use client";
-import { useForm, SubmitHandler } from "react-hook-form";
+
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import Link from "next/link";
 
 import {
@@ -13,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -21,10 +21,7 @@ const formSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8, "Password must have 8 characters"),
 });
-type Inputs = {
-  example: string;
-  exampleRequired: string;
-};
+
 export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
