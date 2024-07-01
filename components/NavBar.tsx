@@ -16,7 +16,7 @@ const NavBar: React.FC<NavBarProps> = ({ currentUser }) => {
   console.log(currentUser);
   const [isOpen, setIsOpen] = useState(false);
   return (
-    <header className="flex justify-between h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
+    <header className="hidden md:flex justify-between h-14 items-center gap-4 border-b bg-muted/40 px-4 lg:h-[60px] lg:px-6">
       <>
         <nav className=" hidden md:flex gap-2 text-lg font-medium">
           {routes.map((item) => (
