@@ -1,13 +1,9 @@
-"use client";
-import React from "react";
-import { signOut } from "next-auth/react";
-const page = () => {
-  return (
-    <div>
-      page
-      <button onClick={() => signOut()}>Sign Out</button>
-    </div>
-  );
-};
+import EmptyState from "@/components/EmptyState";
 
-export default page;
+export default function Dashboard() {
+  return (
+    <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
+      <EmptyState></EmptyState>
+    </main>
+  );
+}
