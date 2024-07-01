@@ -6,6 +6,7 @@ import {
   ChevronRight,
   Command,
   CreditCard,
+  MessageSquareMore,
   File,
   FileText,
   HelpCircle,
@@ -24,6 +25,8 @@ import {
   User,
   X,
   Github,
+  Users,
+  LogOut,
   type Icon as LucideIcon,
 } from "lucide-react";
 
@@ -31,6 +34,8 @@ export type Icon = typeof LucideIcon;
 
 export const Icons = {
   logo: Command,
+  users: Users,
+  logOut: LogOut,
   close: X,
   spinner: Loader2,
   chevronLeft: ChevronLeft,
@@ -39,6 +44,7 @@ export const Icons = {
   post: FileText,
   page: File,
   media: Image,
+  messageSquareMore: MessageSquareMore,
   settings: Settings,
   billing: CreditCard,
   ellipsis: MoreVertical,
