@@ -1,34 +1,20 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Bell,
-  Home,
-  LineChart,
-  Package,
-  ShoppingCart,
-  Users,
-} from "lucide-react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+import { Bell } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-
-import { User } from "@prisma/client";
-import UserBox from "./UserBox";
+import { Conversation, User } from "@prisma/client";
+import UserList from "./UserList";
+import ConversationList from "./ConversationList";
+import { FullConversationType } from "@/app/types";
 
 interface SideBarProps {
-  users: User[];
+  listType: "users" | "conversations";
+  data: User[] | FullConversationType[] | [];
 }
 
-const SideBar: React.FC<SideBarProps> = ({ users }) => {
-  console.log(users);
+const SideBar: React.FC<SideBarProps> = ({ listType, data }) => {
   return (
     <div className="border-r bg-muted/40 md:block">
       <div className="flex h-full max-h-screen flex-col gap-2">
@@ -46,26 +32,11 @@ const SideBar: React.FC<SideBarProps> = ({ users }) => {
             <span className="sr-only">Toggle notifications</span>
           </Button>
         </div>
-        <div className="flex-1">
-          <div className="grid items-start px-2 text-sm font-medium lg:px-4">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>People</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {users.map((item) => (
-                  <TableRow key={item.id}>
-                    <TableCell>
-                      <UserBox data={item}></UserBox>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </div>
+        {listType === "users" ? (
+          <UserList users={data as User[]} />
+        ) : (
+          <ConversationList initalItems={data as FullConversationType[]} />
+        )}
         <div className="mt-auto p-4"></div>
       </div>
     </div>
