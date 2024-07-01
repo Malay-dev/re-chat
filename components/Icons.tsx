@@ -27,12 +27,14 @@ import {
   Github,
   Users,
   LogOut,
+  UserPlus,
   type Icon as LucideIcon,
 } from "lucide-react";
 
 export type Icon = typeof LucideIcon;
 
 export const Icons = {
+  userPlus: UserPlus,
   logo: Command,
   users: Users,
   logOut: LogOut,
