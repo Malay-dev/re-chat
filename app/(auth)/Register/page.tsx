@@ -27,11 +27,11 @@ import axios from "axios";
 
 const formSchema = z
   .object({
-    first_name: z
+    firstName: z
       .string()
       .min(1, "First name is required")
       .max(50, "First name is too long"),
-    last_name: z
+    lastName: z
       .string()
       .min(1, "Last name is required")
       .max(50, "Last name is too long"),
@@ -68,8 +68,8 @@ export default function Register() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
       confirm_password: "",
@@ -109,7 +109,7 @@ export default function Register() {
               <div className="grid grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="first_name"
+                  name="firstName"
                   render={({ field }: any) => (
                     <FormItem className="grid gap-2">
                       <FormLabel htmlFor="first-name">First name</FormLabel>
@@ -126,7 +126,7 @@ export default function Register() {
                   )}></FormField>
                 <FormField
                   control={form.control}
-                  name="last_name"
+                  name="lastName"
                   render={({ field }: any) => (
                     <FormItem className="grid gap-2">
                       <FormLabel htmlFor="last-name">Last name</FormLabel>
