@@ -14,13 +14,11 @@ const Component: React.FC<NavBarProps> = ({ currentUser }) => {
   return (
     <nav className="fixed bottom-0 left-0 z-10 w-full bg-background shadow-lg md:hidden">
       <div className="flex items-center">
-        <div className="border p-2 bg-muted">
-          <Avatar>
+        <div className="grid grid-cols-4 h-14 w-full place-content-center ">
+          <Avatar className="place-self-center">
             <AvatarImage src={currentUser?.image as string} alt="@shadcn" />
             <AvatarFallback>{currentUser?.name?.charAt(0)}</AvatarFallback>
           </Avatar>
-        </div>
-        <div className="grid grid-cols-3 h-14 w-full  items-center  place-content-center ">
           {routes.map((item) => (
             <MobileNavItem
               key={item.label}

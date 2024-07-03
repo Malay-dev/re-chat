@@ -25,7 +25,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   const router = useRouter();
 
   const handleClick = useCallback(() => {
-    router.push(`/conversations/${data.id}`);
+    router.push(`/conversation/${data.id}`);
   }, [data?.id, router]);
 
   const lastMessage = useMemo(() => {
@@ -60,7 +60,9 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   }, [lastMessage]);
 
   return (
-    <TableRow onClick={handleClick} className={clsx("cursor-pointer", selected && `bg-gray-200`)}>
+    <TableRow
+      onClick={handleClick}
+      className={clsx("cursor-pointer", selected && `bg-gray-200`)}>
       <TableCell>
         <div className="flex items-center gap-2">
           <Avatar className="block">

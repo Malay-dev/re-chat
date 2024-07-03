@@ -24,14 +24,17 @@ const MobileNavItem: React.FC<NavItemProps> = ({
   return (
     <div
       onClick={handleClick}
-      className={clsx(active && `bg-gray-200 text-black rounded-sm py-1`)}>
-      <Link
-        href={href}
-        className={`flex flex-col items-center justify-center gap-1 transition-colors ${
+      className={clsx(
+        `${
           active
             ? "text-primary"
             : "text-muted-foreground hover:text-foreground"
-        }`}>
+        }`,
+        active && `bg-gray-200 text-primary rounded-sm `
+      )}>
+      <Link
+        href={href}
+        className={`grid grid-rows-2 place-items-center justify-center transition-colors `}>
         <Icon className="h-6 w-6" />
         <span className="text-xs font-medium">{label}</span>
       </Link>
