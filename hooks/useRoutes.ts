@@ -2,7 +2,6 @@ import { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { Icons } from "@/components/Icons";
 import useConversation from "./useConversation";
-import path from "path";
 import { signOut } from "next-auth/react";
 
 const useRoutes = () => {
