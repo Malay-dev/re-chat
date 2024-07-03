@@ -8,15 +8,17 @@ import { Conversation, User } from "@prisma/client";
 import UserList from "./UserList";
 import ConversationList from "./ConversationList";
 import { FullConversationType } from "@/app/types";
+import clsx from "clsx";
 
 interface SideBarProps {
+  className: string;
   listType: "users" | "conversations";
   data: User[] | FullConversationType[] | [];
 }
 
-const SideBar: React.FC<SideBarProps> = ({ listType, data }) => {
+const SideBar: React.FC<SideBarProps> = ({ listType, data, className }) => {
   return (
-    <div className="border-r bg-muted/40 md:block">
+    <div className={clsx("border-r bg-muted/40", className)}>
       <div className="flex h-full max-h-screen flex-col gap-2">
         <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
           <Link href="/" className="flex items-center gap-2 font-semibold">
