@@ -5,17 +5,17 @@ import { NextResponse } from "next/server";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { first_name, last_name, email, password } = body;
-    if (!first_name || !last_name || !email || !password) {
+    const { firstName, lastName, email, password } = body;
+    if (!firstName || !lastName || !email || !password) {
       return new NextResponse("Missing info", { status: 400 });
     }
-    const name = first_name + " " + last_name;
+    const name = firstName + " " + lastName;
     const hashedPassword = await bcrypt.hash(password, 12);
     const user = await prisma.user.create({
       data: {
         name,
-        first_name,
-        last_name,
+        firstName,
+        lastName,
         email,
         hashedPassword,
       },
