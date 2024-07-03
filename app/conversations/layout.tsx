@@ -13,10 +13,11 @@ interface ConversationChildren {
 const ConversationLayout = async ({ children }: ConversationChildren) => {
   const conversations = await getConversations();
   const user = await getCurrentUser();
+
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <SideBar listType="conversations" data={conversations} />
-      <div className="hidden md:flex flex-col">
+      <SideBar listType="conversations" data={conversations} className={""} />
+      <div className="flex flex-col">
         <NavBar currentUser={user!}></NavBar>
         {children}
       </div>
