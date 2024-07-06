@@ -28,6 +28,7 @@ import {
   Users,
   LogOut,
   UserPlus,
+  Ellipsis,
   type Icon as LucideIcon,
 } from "lucide-react";
 
@@ -49,7 +50,7 @@ export const Icons = {
   messageSquareMore: MessageSquareMore,
   settings: Settings,
   billing: CreditCard,
-  ellipsis: MoreVertical,
+  ellipsis: Ellipsis,
   add: Plus,
   warning: AlertTriangle,
   user: User,

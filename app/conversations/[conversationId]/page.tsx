@@ -5,7 +5,6 @@ import ChatForm from "@/components/ChatForm";
 import EmptyState from "@/components/EmptyState";
 import Header from "@/components/Header";
 import MobileHeader from "@/components/MobileHeader";
-import { Form } from "react-hook-form";
 
 interface IParams {
   conversationId: string;

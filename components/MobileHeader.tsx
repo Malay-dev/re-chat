@@ -24,27 +24,34 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ conversation }) => {
     return "Active";
   }, [conversation]);
   return (
-    <header className=" md:hidden flex h-14 items-center gap-2 shadow-sm border-b bg-inherit ">
+    <header className=" md:hidden flex h-14 items-center justify-between gap-2 shadow-sm border-b bg-inherit ">
       <div className=" md:hidden flex items-center gap-2 ">
         <Button variant={"ghost"} size={"icon"}>
           <Link href={"/conversations"}>
             <Icons.chevronLeft></Icons.chevronLeft>
           </Link>
         </Button>
-        <Avatar>
+        <Avatar className="block">
           <AvatarImage
             src={otherUser?.image || "https://avatar.iran.liara.run/public"}
-            alt={otherUser?.name || "User"}
+            alt={conversation?.name || otherUser?.name || "User"}
           />
-          <AvatarFallback> {otherUser?.name?.charAt(0)}</AvatarFallback>
+          <AvatarFallback>
+            {conversation?.name || otherUser?.name?.charAt(0)}
+          </AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <span className="font-medium">{otherUser?.name}</span>
+          <span className="font-medium">
+            {conversation?.name || otherUser?.name}
+          </span>
           <div className="text-sm text-muted-foreground md:inline">
             {statusText}
           </div>
         </div>
       </div>
+      <Button variant={"ghost"} size={"icon"}>
+        <Icons.ellipsis></Icons.ellipsis>
+      </Button>
     </header>
   );
 };

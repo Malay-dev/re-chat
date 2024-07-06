@@ -24,7 +24,10 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   const session = useSession();
   const router = useRouter();
 
-  const handleClick = useCallback(() => {
+  const handleClick1 = useCallback(() => {
+    router.push(`/conversations/${data.id}`);
+  }, [data?.id, router]);
+  const handleClick2 = useCallback(() => {
     router.push(`/conversation/${data.id}`);
   }, [data?.id, router]);
 
@@ -60,40 +63,76 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
   }, [lastMessage]);
 
   return (
-    <TableRow
-      onClick={handleClick}
-      className={clsx("cursor-pointer", selected && `bg-gray-200`)}>
-      <TableCell>
-        <div className="flex items-center gap-2">
-          <Avatar className="block">
-            <AvatarImage
-              src={otherUser?.image || "https://avatar.iran.liara.run/public"}
-              alt={otherUser?.name || "User"}
-            />
-            <AvatarFallback> {otherUser?.name?.charAt(0)}</AvatarFallback>
-          </Avatar>
-          <div className="flex flex-col">
-            <div className="flex items-center justify-between">
-              <span className="font-medium">
-                {data?.name || otherUser?.name}
-              </span>
-              {lastMessage?.createdAt && (
-                <span className="text-xs text-muted-foreground md:inline">
-                  {format(new Date(lastMessage?.createdAt), "p")}
+    <>
+      <TableRow
+        onClick={handleClick1}
+        className={clsx("cursor-pointer hidden sm:block", selected && `bg-gray-200`)}>
+        <TableCell>
+          <div className="flex items-center gap-2">
+            <Avatar className="block">
+              <AvatarImage
+                src={otherUser?.image || "https://avatar.iran.liara.run/public"}
+                alt={otherUser?.name || "User"}
+              />
+              <AvatarFallback> {otherUser?.name?.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between">
+                <span className="font-medium">
+                  {data?.name || otherUser?.name}
                 </span>
-              )}
-            </div>
-            <div
-              className={clsx(
-                `text-sm font-normal truncate md:inline`,
-                hasSeen ? "text-muted-foreground" : "text-primary"
-              )}>
-              {lastMessageText}
+                {lastMessage?.createdAt && (
+                  <span className="text-xs text-muted-foreground md:inline">
+                    {format(new Date(lastMessage?.createdAt), "p")}
+                  </span>
+                )}
+              </div>
+              <div
+                className={clsx(
+                  `text-sm font-normal truncate md:inline`,
+                  hasSeen ? "text-muted-foreground" : "text-primary"
+                )}>
+                {lastMessageText}
+              </div>
             </div>
           </div>
-        </div>
-      </TableCell>
-    </TableRow>
+        </TableCell>
+      </TableRow>
+      <TableRow
+        onClick={handleClick2}
+        className={clsx("cursor-pointer md:hidden block", selected && `bg-gray-200`)}>
+        <TableCell>
+          <div className="flex items-center gap-2">
+            <Avatar className="block">
+              <AvatarImage
+                src={otherUser?.image || "https://avatar.iran.liara.run/public"}
+                alt={otherUser?.name || "User"}
+              />
+              <AvatarFallback> {otherUser?.name?.charAt(0)}</AvatarFallback>
+            </Avatar>
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between">
+                <span className="font-medium">
+                  {data?.name || otherUser?.name}
+                </span>
+                {lastMessage?.createdAt && (
+                  <span className="text-xs text-muted-foreground md:inline">
+                    {format(new Date(lastMessage?.createdAt), "p")}
+                  </span>
+                )}
+              </div>
+              <div
+                className={clsx(
+                  `text-sm font-normal truncate md:inline`,
+                  hasSeen ? "text-muted-foreground" : "text-primary"
+                )}>
+                {lastMessageText}
+              </div>
+            </div>
+          </div>
+        </TableCell>
+      </TableRow>
+    </>
   );
 };
 

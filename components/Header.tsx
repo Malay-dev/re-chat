@@ -33,12 +33,16 @@ const Header: React.FC<HeaderProps> = ({ conversation }) => {
         <Avatar className="block">
           <AvatarImage
             src={otherUser?.image || "https://avatar.iran.liara.run/public"}
-            alt={otherUser?.name || "User"}
+            alt={conversation?.name || otherUser?.name || "User"}
           />
-          <AvatarFallback> {otherUser?.name?.charAt(0)}</AvatarFallback>
+          <AvatarFallback>
+            {conversation?.name || otherUser?.name?.charAt(0)}
+          </AvatarFallback>
         </Avatar>
         <div className="flex flex-col">
-          <span className="font-medium">{otherUser?.name}</span>
+          <span className="font-medium">
+            {conversation?.name || otherUser?.name}
+          </span>
           <div className="hidden text-sm text-muted-foreground md:inline">
             {statusText}
           </div>
