@@ -5,6 +5,7 @@ import ChatForm from "@/components/ChatForm";
 import EmptyState from "@/components/EmptyState";
 import Header from "@/components/Header";
 import MobileHeader from "@/components/MobileHeader";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface IParams {
   conversationId: string;
@@ -22,10 +23,12 @@ const ConversationID = async ({ params }: { params: IParams }) => {
     );
   }
   return (
-    <main className="">
+    <main className="flex h-full min-h-[50vh]  flex-col rounded-xl bg-muted/50  ">
       <Header conversation={conversation}></Header>
       <MobileHeader conversation={conversation}></MobileHeader>
-      <Body></Body>
+      <ScrollArea>
+        <Body initialMessages={messages}></Body>
+      </ScrollArea>
       <ChatForm></ChatForm>
     </main>
   );

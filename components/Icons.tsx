@@ -30,6 +30,7 @@ import {
   UserPlus,
   Ellipsis,
   type Icon as LucideIcon,
+  ImagePlus,
 } from "lucide-react";
 
 export type Icon = typeof LucideIcon;
@@ -63,6 +64,7 @@ export const Icons = {
   gitHub: Github,
   twitter: Twitter,
   check: Check,
+  imagePlus: ImagePlus,
   google: ({ ...props }) => (
     <svg
       aria-hidden="true"
