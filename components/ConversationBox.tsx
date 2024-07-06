@@ -68,7 +68,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
         onClick={handleClick1}
         className={clsx("cursor-pointer hidden sm:block", selected && `bg-gray-200`)}>
         <TableCell>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between gap-2">
             <Avatar className="block">
               <AvatarImage
                 src={otherUser?.image || "https://avatar.iran.liara.run/public"}
@@ -77,7 +77,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
               <AvatarFallback> {otherUser?.name?.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between w-full gap-10">
                 <span className="font-medium">
                   {data?.name || otherUser?.name}
                 </span>
@@ -111,7 +111,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
               <AvatarFallback> {otherUser?.name?.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <div className="flex items-center justify-between">
+              <div className="flex items-center justify-between gap-10">
                 <span className="font-medium">
                   {data?.name || otherUser?.name}
                 </span>
