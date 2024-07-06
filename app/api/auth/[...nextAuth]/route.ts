@@ -19,7 +19,7 @@ function getEnvVariable(name: string): string {
   return value;
 }
 
-export const authOptions: AuthOptions = {
+const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     Github({
