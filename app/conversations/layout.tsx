@@ -17,7 +17,7 @@ const ConversationLayout = async ({ children }: ConversationChildren) => {
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <SideBar listType="conversations" data={conversations} className={""} />
-      <div className="flex flex-col">
+      <div className="hidden md:flex flex-col">
         <NavBar currentUser={user!}></NavBar>
         {children}
       </div>

@@ -13,7 +13,7 @@ const Body: React.FC<BodyProps> = ({ initialMessages }) => {
   const bottomRef = useRef<HTMLDivElement>(null);
   const { conversationId } = useConversation();
   return (
-    <div className="flex-1">
+    <div className="flex-1 ">
       {messages.map((message, i) => (
         <MessageBox
           isLast={i === messages.length - 1}

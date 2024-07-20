@@ -78,11 +78,11 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
             </Avatar>
             <div className="flex flex-col">
               <div className="flex items-center justify-between w-full gap-10">
-                <span className="font-medium">
+                <span className="font-medium  whitespace-pre">
                   {data?.name || otherUser?.name}
                 </span>
                 {lastMessage?.createdAt && (
-                  <span className="text-xs text-muted-foreground md:inline">
+                  <span className="text-xs text-muted-foreground md:inline whitespace-pre">
                     {format(new Date(lastMessage?.createdAt), "p")}
                   </span>
                 )}

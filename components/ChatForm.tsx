@@ -63,7 +63,7 @@ const ChatForm = () => {
     });
   };
   return (
-    <div className="bottom-0">
+    <div className="bottom-0  w-full">
       <TooltipProvider>
         <Form {...form}>
           <form

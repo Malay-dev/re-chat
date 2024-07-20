@@ -37,7 +37,7 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
       </Avatar>
       <div className="flex flex-col">
         <span className="font-medium">{data?.name}</span>
-        <div className="hidden text-sm text-muted-foreground md:inline">
+        <div className="text-sm text-muted-foreground inline">
           {data?.email}
         </div>
       </div>

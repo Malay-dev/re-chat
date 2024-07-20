@@ -22,10 +22,10 @@ const ConversationID = async ({ params }: { params: IParams }) => {
     );
   }
   return (
-    <main className="flex h-full min-h-[100vh] flex-col rounded-xl bg-muted/50  lg:col-span-2">
+    <main className="flex h-full relative min-h-[100vh] flex-col rounded-xl bg-muted/50  lg:col-span-2">
       <Header conversation={conversation}></Header>
       <MobileHeader conversation={conversation}></MobileHeader>
-      <ScrollArea>
+      <ScrollArea className="h-[70vh]">
         <Body initialMessages={messages}></Body>
       </ScrollArea>
       <ChatForm></ChatForm>
