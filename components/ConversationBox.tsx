@@ -62,11 +62,20 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
     return "Started a conversation";
   }, [lastMessage]);
 
+  const truncateMessage = (message: String) => {
+    if (message.length > 15 && !message.startsWith("Started a conversation")) {
+      return message.substring(0, 20) + "...";
+    }
+    return message;
+  };
   return (
     <>
       <TableRow
         onClick={handleClick1}
-        className={clsx("cursor-pointer hidden sm:block", selected && `bg-gray-200`)}>
+        className={clsx(
+          "cursor-pointer hidden sm:block",
+          selected && `bg-gray-200`
+        )}>
         <TableCell>
           <div className="flex items-center justify-between gap-2">
             <Avatar className="block">
@@ -92,7 +101,7 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
                   `text-sm font-normal truncate md:inline`,
                   hasSeen ? "text-muted-foreground" : "text-primary"
                 )}>
-                {lastMessageText}
+                {truncateMessage(lastMessageText)}
               </div>
             </div>
           </div>
@@ -100,7 +109,10 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
       </TableRow>
       <TableRow
         onClick={handleClick2}
-        className={clsx("cursor-pointer md:hidden block", selected && `bg-gray-200`)}>
+        className={clsx(
+          "cursor-pointer md:hidden block",
+          selected && `bg-gray-200`
+        )}>
         <TableCell>
           <div className="flex items-center gap-2">
             <Avatar className="block">

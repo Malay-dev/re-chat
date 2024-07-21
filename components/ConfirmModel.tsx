@@ -13,7 +13,7 @@ import { Button } from "./ui/button";
 interface ConfirmModelOpen {
   isOpen?: boolean;
   onClose: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const ConfirmModel: React.FC<ConfirmModelOpen> = ({

@@ -5,9 +5,10 @@ import useRoutes from "@/hooks/useRoutes";
 import NavItem from "./NavItem";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "@prisma/client";
+import SettingsModal from "./SettingsModal";
 
 interface NavBarProps {
-  currentUser: User | null;
+  currentUser: User;
 }
 
 const NavBar: React.FC<NavBarProps> = ({ currentUser }) => {
@@ -30,10 +31,12 @@ const NavBar: React.FC<NavBarProps> = ({ currentUser }) => {
           ))}
         </nav>
       </>
-      <Avatar className="hidden md:block">
-        <AvatarImage src={currentUser?.image as string} alt="@shadcn" />
-        <AvatarFallback>{currentUser?.name?.charAt(0)}</AvatarFallback>
-      </Avatar>
+      <SettingsModal  currentUser={currentUser}>
+        <Avatar className="hidden md:block ">
+          <AvatarImage src={currentUser?.image as string} alt="@shadcn" />
+          <AvatarFallback>{currentUser?.name?.charAt(0)}</AvatarFallback>
+        </Avatar>
+      </SettingsModal>
     </header>
   );
 };
