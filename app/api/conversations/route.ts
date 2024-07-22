@@ -14,6 +14,7 @@ export async function POST(request: Request) {
     if (isGroup && (!members || members.length < 2 || !name)) {
       return new NextResponse("Invalid Data", { status: 401 });
     }
+    console.log(body);
     if (isGroup) {
       const newConversation = await prisma.conversation.create({
         data: {
@@ -22,7 +23,7 @@ export async function POST(request: Request) {
           users: {
             connect: [
               ...members.map((member: { value: string }) => ({
-                id: member.value,
+                id: member,
               })),
               {
                 id: currentUser.id,
