@@ -27,7 +27,9 @@ const UserBox: React.FC<UserBoxProps> = ({ data }) => {
   }, [data, router]);
 
   return (
-    <div onClick={handleClick} className="flex items-center gap-2">
+    <div
+      onClick={handleClick}
+      className="flex items-center gap-2 cursor-pointer">
       <Avatar className="block">
         <AvatarImage
           src={data?.image || "https://avatar.iran.liara.run/public"}
