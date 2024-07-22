@@ -10,6 +10,7 @@ import useOtherUser from "@/hooks/useOtherUser";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import clsx from "clsx";
 import { TableCell, TableRow } from "./ui/table";
+import AvatarGroup from "./AvatarGroup";
 
 interface ConversationBoxProps {
   data: FullConversationType;
@@ -78,13 +79,20 @@ const ConversationBox: React.FC<ConversationBoxProps> = ({
         )}>
         <TableCell>
           <div className="flex items-center justify-between gap-2">
-            <Avatar className="block">
-              <AvatarImage
-                src={otherUser?.image || "https://avatar.iran.liara.run/public"}
-                alt={otherUser?.name || "User"}
-              />
-              <AvatarFallback> {otherUser?.name?.charAt(0)}</AvatarFallback>
-            </Avatar>
+            {data.isGroup ? (
+              <AvatarGroup users={data.users}></AvatarGroup>
+            ) : (
+              <Avatar className="block">
+                <AvatarImage
+                  src={
+                    otherUser?.image || "https://avatar.iran.liara.run/public"
+                  }
+                  alt={otherUser?.name || "User"}
+                />
+                <AvatarFallback> {otherUser?.name?.charAt(0)}</AvatarFallback>
+              </Avatar>
+            )}
+
             <div className="flex flex-col">
               <div className="flex items-center justify-between w-full gap-10">
                 <span className="font-medium  whitespace-pre">

@@ -9,6 +9,7 @@ import { Button } from "./ui/button";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { AvatarFallback } from "@radix-ui/react-avatar";
 import ProfileDrawer from "./ProfileDrawer";
+import AvatarGroup from "./AvatarGroup";
 
 interface MobileHeaderProps {
   conversation: Conversation & {
@@ -38,15 +39,19 @@ const MobileHeader: React.FC<MobileHeaderProps> = ({ conversation }) => {
               <Icons.chevronLeft></Icons.chevronLeft>
             </Link>
           </Button>
-          <Avatar className="block">
-            <AvatarImage
-              src={otherUser?.image || "https://avatar.iran.liara.run/public"}
-              alt={conversation?.name || otherUser?.name || "User"}
-            />
-            <AvatarFallback>
-              {conversation?.name || otherUser?.name?.charAt(0)}
-            </AvatarFallback>
-          </Avatar>
+          {conversation.isGroup ? (
+            <AvatarGroup users={conversation.users}></AvatarGroup>
+          ) : (
+            <Avatar className="block">
+              <AvatarImage
+                src={otherUser?.image || "https://avatar.iran.liara.run/public"}
+                alt={conversation?.name || otherUser?.name || "User"}
+              />
+              <AvatarFallback>
+                {conversation?.name || otherUser?.name?.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+          )}
           <div className="flex flex-col">
             <span className="font-medium">
               {conversation?.name || otherUser?.name}

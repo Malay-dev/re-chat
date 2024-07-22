@@ -14,9 +14,10 @@ interface SideBarProps {
   className: string;
   listType: "users" | "conversations";
   data: User[] | FullConversationType[] | [];
+  users: User[];
 }
 
-const SideBar: React.FC<SideBarProps> = ({ listType, data, className }) => {
+const SideBar: React.FC<SideBarProps> = ({ listType, data, className, users }) => {
   return (
     <div className={clsx("border-r bg-muted/40", className)}>
       <div className="flex h-full max-h-screen flex-col gap-2">
@@ -37,7 +38,7 @@ const SideBar: React.FC<SideBarProps> = ({ listType, data, className }) => {
         {listType === "users" ? (
           <UserList users={data as User[]} />
         ) : (
-          <ConversationList initalItems={data as FullConversationType[]} />
+          <ConversationList initalItems={data as FullConversationType[]} users={users} />
         )}
         <div className="mt-auto p-4"></div>
       </div>

@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import Modal from "./Modal";
 import ConfirmModel from "./ConfirmModel";
+import AvatarGroup from "./AvatarGroup";
 interface ProfileDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -37,7 +38,7 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
 
   const statusText = useMemo(() => {
     if (data.isGroup) {
-      return `${data.users.length} memo`;
+      return `${data.users.length} members`;
     }
     return "Active";
   }, [data]);
@@ -88,15 +89,22 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <div className="flex flex-col items-center">
                           <div className="mb-2">
-                            <Avatar>
-                              <AvatarImage
-                                src={otherUser?.image as string}
-                                alt={otherUser.name || "@default"}
-                              />
-                              <AvatarFallback>
-                                {otherUser?.name?.charAt(0)}
-                              </AvatarFallback>
-                            </Avatar>
+                            {data.isGroup ? (
+                              <AvatarGroup users={data.users}></AvatarGroup>
+                            ) : (
+                              <Avatar className="block">
+                                <AvatarImage
+                                  src={
+                                    otherUser?.image ||
+                                    "https://avatar.iran.liara.run/public"
+                                  }
+                                  alt={otherUser?.name || "User"}
+                                />
+                                <AvatarFallback>
+                                  {otherUser?.name?.charAt(0)}
+                                </AvatarFallback>
+                              </Avatar>
+                            )}
                           </div>
                           <div>{title}</div>
                           <div className="text-sm text-gray-500">
@@ -111,37 +119,63 @@ const ProfileDrawer: React.FC<ProfileDrawerProps> = ({
                               <Icons.trash size={16}></Icons.trash>
                             </Button>
                           </div>
+                          <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
+                            <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
+                              {data.isGroup && (
+                                <div>
+                                  <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                                    Emails
+                                  </dt>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                    {data.users.map((user) => (
+                                      <p key={user.id}>{user.email}</p>
+                                    ))}
+                                  </dd>
+                                </div>
+                              )}
+                              {!data.isGroup && (
+                                <div>
+                                  <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                                    Email
+                                  </dt>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                    {otherUser?.email}
+                                  </dd>
+                                </div>
+                              )}
+                              {data.isGroup && (
+                                <>
+                                  <hr />
+                                  <div>
+                                    <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                                      Joined
+                                    </dt>
+                                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                      <time dateTime={joinedDate}>
+                                        {joinedDate}
+                                      </time>
+                                    </dd>
+                                  </div>
+                                </>
+                              )}
+                              {!data.isGroup && (
+                                <>
+                                  <hr />
+                                  <div>
+                                    <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
+                                      Joined
+                                    </dt>
+                                    <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
+                                      <time dateTime={joinedDate}>
+                                        {joinedDate}
+                                      </time>
+                                    </dd>
+                                  </div>
+                                </>
+                              )}
+                            </dl>
+                          </div>
                         </div>
-                      </div>
-                      <div className="w-full pb-5 pt-5 sm:px-0 sm:pt-0">
-                        <dl className="space-y-8 px-4 sm:space-y-6 sm:px-6">
-                          {!data.isGroup && (
-                            <div>
-                              <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
-                                Email
-                              </dt>
-                              <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                {otherUser?.email}
-                              </dd>
-                            </div>
-                          )}
-                          {!data.isGroup && (
-                            <>
-                              <hr />
-                              <div>
-                                <dt className="text-sm font-medium text-gray-500 sm:w-40 sm:flex-shrink-0">
-                                  Joined
-                                </dt>
-                                <dd className="mt-1 text-sm text-gray-900 sm:col-span-2">
-                                  <time dateTime={joinedDate}>
-                                    {" "}
-                                    {joinedDate}
-                                  </time>
-                                </dd>
-                              </div>
-                            </>
-                          )}
-                        </dl>
                       </div>
                     </div>
                   </DialogPanel>
