@@ -78,7 +78,7 @@ export default function Register() {
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     axios
-      .post("/api/messages", values)
+      .post("/api/register", values)
       .then(() => {
         signIn("credentials", values);
       })
