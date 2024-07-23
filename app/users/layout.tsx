@@ -16,7 +16,7 @@ const UsersLayout = async ({ children }: UsersChildren) => {
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-      <SideBar listType="users" data={users} className="block" />
+      <SideBar listType="users" data={users} className="block" users={users} />
       <div className="hidden md:flex flex-col">
         <NavBar currentUser={user!}></NavBar>
         {children}
