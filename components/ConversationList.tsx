@@ -19,7 +19,7 @@ import GroupChatModal from "./GroupChatModal";
 import { User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { pusherClient } from "@/lib/pusher";
-import { find } from "lodash";
+import { find, remove } from "lodash";
 
 interface ConversationListProps {
   initalItems: FullConversationType[];
@@ -73,11 +73,13 @@ const ConversationList: React.FC<ConversationListProps> = ({
     };
     pusherClient.bind("conversation:update", updateHandler);
     pusherClient.bind("conversation:new", newHandler);
+    pusherClient.bind("conversation:remove", removeHandler);
 
     return () => {
       pusherClient.unsubscribe(pusherKey);
       pusherClient.unbind("conversation:new", newHandler);
       pusherClient.unbind("conversation:update", updateHandler);
+      pusherClient.unbind("conversation:remove", removeHandler);
     };
   }, [pusherKey]);
 
